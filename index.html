@@ -1,10 +1,4 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-</head>
-<body>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Tomcat Alley</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -39,6 +33,7 @@ body{font-family:var(--body);-webkit-user-select:none;user-select:none;-webkit-t
 .stage{flex:1;min-height:0;position:relative;display:grid;place-items:center}
 canvas{image-rendering:pixelated;image-rendering:crisp-edges;display:block;max-width:100%;box-shadow:0 0 0 2px #2a1850,0 0 24px #ff55ff22}
 .overlay{position:absolute;inset:0;display:grid;place-items:center;background:#0b0618e6;padding:16px;box-sizing:border-box;text-align:center}
+.overlay[hidden],.overlay ul[hidden]{display:none!important}
 .overlay .card{max-width:34ch;display:flex;flex-direction:column;gap:14px;align-items:center}
 .overlay h1{font-family:var(--display);font-weight:400;font-size:clamp(20px,7vw,34px);line-height:1.25;margin:0;color:var(--magenta);text-shadow:3px 3px 0 #3a0f4a, -1px -1px 0 var(--cyan);text-wrap:balance}
 .overlay p{margin:0;font-size:20px;line-height:1.15;color:var(--white)}
@@ -92,7 +87,7 @@ canvas{image-rendering:pixelated;image-rendering:crisp-edges;display:block;max-w
 </div>
 
 <script>
-(() => {
+(()=>{
 const W=240,H=300,GROUND=284,SURF=60;
 const G=800,JUMPV=283,SPEED=82;
 const C={sky:'#140830',brick:'#4a1640',brickLine:'#33102d',cornice:'#7a2a70',frame:'#2b6f80',sill:'#55c8d8',
@@ -140,7 +135,7 @@ addEventListener('keydown',e=>{const k=KEYMAP[e.code]; if(!k)return; e.preventDe
 addEventListener('keyup',e=>{const k=KEYMAP[e.code]; if(k)keys[k]=0});
 document.querySelectorAll('.pad button').forEach(b=>{
   const k=b.dataset.k;
-  const down=e=>{e.preventDefault(); try{b.setPointerCapture(e.pointerId)}catch(_){ }
+  const down=e=>{e.preventDefault(); try{b.setPointerCapture(e.pointerId)}catch(_){}
     keys[k]=1; if(k==='j')jumpQ=.14; b.classList.add('on')};
   const up=e=>{keys[k]=0; b.classList.remove('on')};
   b.addEventListener('pointerdown',down); b.addEventListener('pointerup',up);
@@ -178,10 +173,10 @@ function banner(text,t=1.3,sub=''){S.banner={text,sub,t}}
 function burst(x,y,c){for(let i=0;i<10;i++)sparks.push({x,y,vx:rand(-60,60),vy:rand(-90,-10),t:rand(.3,.6),c})}
 
 function start(){
-  if(!actx){try{actx=new (window.AudioContext||window.webkitAudioContext)()}catch(e){}};
+  if(!actx){try{actx=new (window.AudioContext||window.webkitAudioContext)()}catch(e){}}
   if(actx&&actx.state==='suspended')actx.resume();
   S.score=0;S.lives=9;S.level=1;S.cleared=0;sparks=[];
-  $('overlay').hidden=true; enterAlley(false); banner('GO, TOMCAT!',1.2); hud();
+  $('overlay').hidden=true; $('overlay').style.display='none'; enterAlley(false); banner('GO, TOMCAT!',1.2); hud();
 }
 function enterAlley(fromRoom){
   S.mode='alley';
@@ -225,7 +220,7 @@ function gameOver(){
   $('ovTitle').innerHTML='GAME<br>OVER';
   $('ovText').textContent=(best?'New high score! ':'')+'You scored '+S.score+' and cleared '+S.cleared+(S.cleared===1?' room.':' rooms.');
   $('ovList').hidden=true; $('ovHi').textContent='HI '+String(hi).padStart(6,'0');
-  $('play').textContent='PLAY AGAIN'; $('overlay').hidden=false;
+  $('play').textContent='PLAY AGAIN'; $('overlay').hidden=false; $('overlay').style.display='';
 }
 
 /* ---------- platform physics ---------- */
@@ -534,5 +529,4 @@ const boot=()=>{prerender();requestAnimationFrame(t=>{last=t;frame(t)})};
 })();
 </script>
 
-</body>
-</html>
+</body></html>
